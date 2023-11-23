@@ -1,0 +1,28 @@
+[
+    {
+    "name": "blue",
+    "values": [
+                {"name": "ocean", "values": [
+                    {
+                        "name": "deepOcean", 
+                        "color": "#0000FF",
+                        "tags": ["mare"]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+    "name": "green",
+    "values": [
+                {"name": "ocean", "values": [
+                    {
+                        "name": "deepOcean", 
+                        "color": "#0000FF",
+                        "tags": ["mare"]
+                    }
+                ]
+            }
+        ]
+    }
+]

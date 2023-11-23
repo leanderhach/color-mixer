@@ -1,0 +1,94 @@
+@font-face {
+  font-family: "Julia Mono";
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.051/JuliaMono-Regular.woff2");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Julia Mono";
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.051/JuliaMono-Medium.woff2");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Julia Mono";
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.051/JuliaMono-SemiBold.woff2");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Julia Mono";
+  src: url("https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.051/JuliaMono-Bold.woff2");
+  font-weight: 700;
+}
+
+:root {
+  --primary-text-color: #222f3e;
+  --secondary-text-color: #576574;
+  --border-radius: 0px;
+  --border-thickness: 3px;
+  --brand-color: #5f27cd;
+  --border-color: var(--primary-text-color);
+  --hover-border-color: var(--brand-color);
+  --input-padding: 0.5rem 0.25rem;
+
+  font-family: "Julia Mono", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: var(--primary-text-color);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: white;
+}
+
+.button {
+  background-color: var(--brand-color);
+  color: white;
+  padding: 0.5rem 0.25rem;
+  outline: none;
+  border: var(--border-thickness) solid transparent;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  font-family: var(--font-family);
+  font-weight: 500;
+}
+
+.button:hover {
+  background-color: transparent;
+  color: var(--hover-border-color);
+  border-color: var(--hover-border-color);
+}
+
+.button.is-icon {
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.popup-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  border: var(--border-thickness) solid var(--border-color);
+  padding: var(--input-padding);
+  z-index: 100;
+  margin-top: 1rem;
+}
+
+.popup-menu__item {
+  display: block;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.popup-menu__item:hover {
+  background-color: var(--brand-color);
+  color: white;
+}
+
