@@ -2,10 +2,11 @@
     export let label;
     export let value;
     export let id;
+    export let editable = true;
 </script>
 
 <div class="text-field">
-    <input {id} type="text" bind:value>
+    <input {id} type="text" bind:value disabled={!editable}>
     <label for="{id}">{label}</label>
 </div>
 
@@ -31,7 +32,7 @@
         transition: all .2s ease-in-out;
         font-family: "Julia Mono";
         font-size: 0.8rem;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
     }
 
     .text-field input:hover, .text-field input:focus {

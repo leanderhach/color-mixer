@@ -1,84 +1,109 @@
 <script>
   import { _colorStore } from "../store";
-  import ColorChip from "./ColorChip.svelte";
-  import FancyButton from "./FancyButton.svelte";
+    import { menuFade } from "../transitions";
+    import FancyButton from "./FancyButton.svelte";
+    import ColorModal from "./modals/ColorModal.svelte";
+    import ColorGroupModal from "./modals/ColorGroupModal.svelte";
+    import ColorGroup from "./ColorGroup.svelte";
+    import ColorSubGroupModal from "./modals/ColorSubGroupModal.svelte";
+    import TextField from "./TextField.svelte";
 
   let createMenuOpen = false;
 
+  let creatingColor = false;
+  let creatingGroup = false;
+  let creatingSubgroup = false;
+
+  let searchQuery = "";
+
+
+
   function toggleCreateMenu() {
     createMenuOpen = !createMenuOpen;
+  }
+
+  function toggleCreateColor() {
+    toggleCreateMenu();
+
+    creatingColor = !creatingColor;
+    creatingGroup = false;
+    creatingSubgroup = false;
+  }
+
+  function toggleCreateGroup() {
+    toggleCreateMenu();
+
+    creatingColor = false;
+    creatingGroup = !creatingGroup;
+    creatingSubgroup = false;
+  }
+
+  function toggleCreateSubgroup() {
+    toggleCreateMenu();
+
+    creatingColor = false;
+    creatingGroup = false;
+    creatingSubgroup = !creatingSubgroup;
   }
 
 </script>
 
 
 
-
 <div class="palette-panel">
+    <h2>Palette</h2>
+    <TextField label="Search" bind:value={searchQuery} id="search"></TextField>
     <div class="palette-add">
         <FancyButton label="Add New" icon="fa-plus" on:click={toggleCreateMenu}>
         </FancyButton>
         {#if createMenuOpen}
-            <div class="popup-menu">
-                <div class="popup-menu__item" on:click={}>Create color</div>
-                <div class="popup-menu__item" on:click={}>Create group</div>
-                <div class="popup-menu__item" on:click={}>Add Subgroup</div>
+            <div class="popup-menu" transition:menuFade>
+                <div class="popup-menu__item" on:click={toggleCreateColor}>Create color</div>
+                <div class="popup-menu__item" on:click={toggleCreateGroup}>Create group</div>
+                <div class="popup-menu__item" on:click={toggleCreateSubgroup}>Add Subgroup</div>
             </div>
         {/if}
     </div>
     <div class="colors">
         {#each $_colorStore as group, index}
-        <div class="color-group">
-            <h2 class="color-group__name">
-                {group.name}
-            </h2>
-            <div class="color-group__colors">
-                {#each group.values as subgroup, index}
-                <div class="color-subgroup">
-                    <h4 class="color-subgroup__name">
-                        {subgroup.name}
-                    </h4>
-                    <div class="color-subgroup__colors">
-                        {#each subgroup.values as color, index}
-                            <ColorChip bind:color={color}></ColorChip>
-                        {/each}
-                    </div>
-                </div>
-                {/each}
-            </div>
-        </div>
+            <ColorGroup {group}></ColorGroup>
         {/each}
     </div>
 </div>
 
+{#if creatingColor}
+    <ColorModal on:close={() => creatingColor = false}/>
+{/if}
+
+{#if creatingGroup}
+    <ColorGroupModal on:close={() => creatingGroup = false}/>
+{/if}
+
+{#if creatingSubgroup}
+    <ColorSubGroupModal on:close={() => creatingSubgroup = false} />
+{/if}
+
 <style>
+    .palette-panel {
+      padding-right: 0.25rem;
+      box-sizing: border-box;
+      padding-left: 0.25rem;
+    }
     .colors {
         display: flex;
         flex-direction: column;
         border-left: var(--border-thickness) solid var(--border-color);
-    }
-
-    .color-group {
-        margin-bottom: 1rem;
-    }
-
-    .color-group__name {
-        font-size: 1.2rem;
-        font-weight: 700;
-        text-transform: capitalize;
-    }
-
-    .color-subgroup {
-
-    }
-
-    .color-subgroup__name {
-        color: var(--secondary-text-color);
-        text-transform: capitalize;
+        padding-left: 0.25rem;
+        height: 100%;
+        overflow:scroll;
     }
 
     .palette-add {
         position: relative;
-        width: 70%;
+        width: 100%;
+        border-left: var(--border-thickness) solid var(--border-color);
+        padding-left: 0.25rem;
+        margin-top: 1rem;
+        box-sizing: border-box;
     }
 </style>

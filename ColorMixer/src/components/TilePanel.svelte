@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from "svelte";
   import { _tileStore } from "../store";
   import Tile from "./Tile.svelte";
 
@@ -21,10 +20,8 @@
     <div class="tile-add">
         <button class="button is-icon" on:click={addTile}><i class="fa fa-plus"></i></button>
     </div>
-    {#each $_tileStore as tile, index}
-    <div class="tile">
+    {#each $_tileStore as tile}
         <Tile bind:tile></Tile>
-    </div>
     {/each}
 </div>
 
@@ -34,10 +31,8 @@
         flex-direction: row;
         overflow-y: scroll;
         align-items: center;
-        padding: 1rem 1rem 0 1rem;
-    }
-    .tile {
-        border: var(--border-thickness) solid var(--border-color);
+        padding: 1rem;
+        position: relative;
     }
 
     .tile-add {

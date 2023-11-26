@@ -4,7 +4,7 @@
   import PalettePanel from './components/PalettePanel.svelte';
   import PreviewPanel from './components/PreviewPanel.svelte';
   import TilePanel from './components/TilePanel.svelte';
-  import { _colorStore } from './store';
+  import { _colorStore, _pickedColor, _pickingColor, _pickingTileField } from './store';
   
   // sample structure for colorstore
   //   [
@@ -63,7 +63,9 @@
 
 <main>
   <div class="content">
-    <TilePanel />
+    <div class="content__tile-panel">
+      <TilePanel/>
+    </div>
     <PreviewPanel/>
     <ActionsPanel/>
   </div>
@@ -79,6 +81,20 @@
     height: 100%;
     width: 100%;
   }
+
+  .content__tile-panel {
+    position: relative;
+  }
+
+  .content__tile-panel::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+        width: 4rem;
+    }
 
   main {
     display: flex;

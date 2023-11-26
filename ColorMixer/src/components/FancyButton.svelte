@@ -49,7 +49,7 @@
         pointer-events: none;
     }
 
-    .fancy-button__text::after {
+    .fancy-button__text::before {
         content: "";
         position: absolute;
         right: 0;
@@ -77,14 +77,13 @@
 
     .fancy-button__text span {
         position: relative;
-        z-index: 10;
     }
 
     .fancy-button > .fancy-button__icon > i {
         transition: all .2s ease;
     }
 
-    .fancy-button:hover > .fancy-button__text::after {
+    .fancy-button:hover > .fancy-button__text::before {
         width: 100%;
     }
 
