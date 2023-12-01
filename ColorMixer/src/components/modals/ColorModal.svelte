@@ -27,22 +27,37 @@
     let oldName = "";
 
     function editColor() {
-        if(colorName === "" || colorValue === "" || !(_colorStore.getGroups().includes(colorGroup.value)) || !(_colorStore.getSubGroups(colorGroup.value).includes(colorSubGroup.value))) {
+      console.log(colorName)
+      console.log(colorValue)
+      console.log(colorGroup.value)
+      console.log((_colorStore.getGroups().includes(colorGroup.value)))
+        if(colorName === "" || colorValue === "" || !(_colorStore.getGroups().includes(colorGroup.value))) {
             console.log("not complete form")
             return
         }
 
         if(editing) {
-            _colorStore.updateColor(colorGroup.value, colorSubGroup.value, oldName, {
+            _colorStore.updateColor(colorGroup.value, colorSubGroup.value ?? "", oldName, {
                 name: colorName,
                 color: colorValue,
                 tags: tags.split(",").map(tag => tag.trim())
             })
         } else {
-            _colorStore.addColor(colorGroup.value, colorSubGroup.value, {
+
+            const newTags = tags.split(",").map(tag => tag.trim())
+
+            if(colorSubGroup.value !== "") {
+                newTags.unshift(colorSubGroup.value.trim())
+            }
+
+            if(colorGroup.value !== "") {
+                newTags.unshift(colorGroup.value.trim())
+            }
+
+            _colorStore.addColor(colorGroup.value, colorSubGroup.value ?? "", {
                 name: colorName,
                 color: colorValue,
-                tags: tags.split(",").map(tag => tag.trim())
+                tags: newTags
             })
         }
 
@@ -54,7 +69,12 @@
             colorName = color.name;
             oldName = JSON.parse(JSON.stringify(color.name));
             colorGroup.value = group.name;
-            colorSubGroup.value = subGroup.name;
+          
+            if(subGroup) {
+            colorSubGroup.value = subGroup.name ?? "";
+            } else {
+              colorSubGroup = ""
+            }
             colorValue = color.color;
             tags = color.tags.join(",");
         }

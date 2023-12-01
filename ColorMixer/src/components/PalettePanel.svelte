@@ -7,15 +7,13 @@
     import ColorGroup from "./ColorGroup.svelte";
     import ColorSubGroupModal from "./modals/ColorSubGroupModal.svelte";
     import TextField from "./TextField.svelte";
+  import Search from "./Search.svelte";
 
   let createMenuOpen = false;
 
   let creatingColor = false;
   let creatingGroup = false;
   let creatingSubgroup = false;
-
-  let searchQuery = "";
-
 
 
   function toggleCreateMenu() {
@@ -52,7 +50,7 @@
 
 <div class="palette-panel">
     <h2>Palette</h2>
-    <TextField label="Search" bind:value={searchQuery} id="search"></TextField>
+    <Search></Search>
     <div class="palette-add">
         <FancyButton label="Add New" icon="fa-plus" on:click={toggleCreateMenu}>
         </FancyButton>
@@ -65,9 +63,9 @@
         {/if}
     </div>
     <div class="colors">
-        {#each $_colorStore as group, index}
-            <ColorGroup {group}></ColorGroup>
-        {/each}
+      {#each $_colorStore as group, index}
+          <ColorGroup {group}></ColorGroup>
+      {/each}
     </div>
 </div>
 

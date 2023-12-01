@@ -33,28 +33,53 @@ function CreateColorStore(initialValue) {
     /*          COLOR FUNCTIONS         */
     /********************************** */
     function addColor(group, subgroup, color) {
+      
+      if(subgroup === "") {
+        store.update((store) => {
+            store.find((item) => item.name === group).values.push(color);
+            return store;
+        });
+      } else {
         store.update((store) => {
             store.find((item) => item.name === group).values.find((item) => item.name === subgroup).values.push(color);
             return store;
         });
+      }
     }
 
     function removeColor(group, subgroup, color) {
-        console.log("trying to remove: " + group + subgroup + name)
+      
+      if(subgroup === "") {
+        store.update((store) => {
+            store.find((item) => item.name === group).values.splice(store.find((item) => item.name === group).values.findIndex(item => item.name === color), 1);
+            store = store;
+            return store;
+        });
+      } else {
         store.update((store) => {
             store.find((item) => item.name === group).values.find((item) => item.name === subgroup).values.splice(store.find((item) => item.name === group).values.find((item) => item.name === subgroup).values.findIndex(item => item.name === color), 1);
             store = store;
             return store;
         });
+      }
     }
 
     function updateColor(group, subGroup, colorName, newColor) {
+      if(subGroup === "") {
+          store.update((store) => {
+            let color = store.find((item) => item.name === group).values.find(color => color.name === colorName);
+            Object.assign(color, newColor);
+            store = store;
+            return store;
+        });
+      } else {
         store.update((store) => {
             let color = store.find((item) => item.name === group).values.find((item) => item.name === subGroup).values.find(color => color.name === colorName);
             Object.assign(color, newColor);
             store = store;
             return store;
         });
+      }
     }
 
     /********************************** */
@@ -149,9 +174,14 @@ function CreateColorStore(initialValue) {
         
         get(store).forEach(group => {
             group.values.forEach(subGroup => {
+              
+              if(subGroup.color) {
+                colorMap[subGroup.name] = subGroup.color.trim()
+              } else {
                 subGroup.values.forEach(color => {
                     colorMap[color.name] = color.color.trim();
                 });
+              }
             });
         });
     
@@ -306,3 +336,4 @@ export const _pickingColor = writable(false);
 export const _pickingTileField = writable({id: null, field: null});
 export const _pickedColor = writable(null);
 export const _currentViewedTileId = writable(null);
+export const _searchMatches = writable([]);

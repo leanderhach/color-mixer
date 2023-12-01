@@ -14,8 +14,6 @@
   }
 </script>
 
-
-{JSON.stringify($_tileStore)}
 <div class="tile-panel">
     <div class="tile-add">
         <button class="button is-icon" on:click={addTile}><i class="fa fa-plus"></i></button>

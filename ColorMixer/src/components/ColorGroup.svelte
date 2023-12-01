@@ -1,6 +1,7 @@
 <script>
     import { _colorStore } from "../store";
     import ColorSubGroup from "./ColorSubGroup.svelte";
+    import ColorChip from "./ColorChip.svelte";
     import ColorGroupModal from "./modals/ColorGroupModal.svelte";
 
     export let group;
@@ -22,7 +23,12 @@
             </div>
         </div>
         {#each group.values as subGroup}
-            <ColorSubGroup {subGroup} {group}></ColorSubGroup>
+            {#if subGroup.color}
+              <div style="padding-top:1rem;"></div>
+              <ColorChip color={subGroup} {group} canUpdate></ColorChip>
+            {:else}
+              <ColorSubGroup {subGroup} {group}></ColorSubGroup>
+            {/if}
         {/each}
     </div>
 {/if}

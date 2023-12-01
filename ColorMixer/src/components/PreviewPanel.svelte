@@ -1,5 +1,5 @@
 <script>
-    import { _currentViewedTileId } from "../store";
+    import { _colorStore, _currentViewedTileId } from "../store";
   import Mosaic from "./Mosaic.svelte";
     import Swatch from "./Swatch.svelte";
 </script>
