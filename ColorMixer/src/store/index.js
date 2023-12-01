@@ -4,9 +4,30 @@ import { nanoid } from "nanoid";
 function CreateColorStore(initialValue) {
     const store = writable(initialValue);
 
+    let loadedFromStore = false;
+
     store.subscribe((store) => {
-        console.log(store)
+        // if the store is empty, try to load from local storage
+        if (store.length === 0 && !loadedFromStore) {
+            const localStore = localStorage.getItem("colorStore");
+            if (localStore) {
+                setColors(JSON.parse(localStore));
+            }
+
+            loadedFromStore = true;
+        }
+
+        // otherwise, save to local storage
+        else {
+            localStorage.setItem("colorStore", JSON.stringify(store));
+        }
     })
+
+    function setColors(colors) {
+        store.set(colors);
+    }
+
+
 
     /********************************** */
     /*          COLOR FUNCTIONS         */
@@ -19,6 +40,7 @@ function CreateColorStore(initialValue) {
     }
 
     function removeColor(group, subgroup, color) {
+        console.log("trying to remove: " + group + subgroup + name)
         store.update((store) => {
             store.find((item) => item.name === group).values.find((item) => item.name === subgroup).values.splice(store.find((item) => item.name === group).values.find((item) => item.name === subgroup).values.findIndex(item => item.name === color), 1);
             store = store;
@@ -48,9 +70,8 @@ function CreateColorStore(initialValue) {
     }
 
     function removeGroup(group) {
-       store.update((store) => {
-            store.splice(store.indexOf(group), 1);
-            store = store;
+        store.update((store) => {
+            store.splice(store.findIndex(item => item.name === group), 1);
             return store;
         });
     }
@@ -78,8 +99,7 @@ function CreateColorStore(initialValue) {
 
     function removeSubGroup(group, subgroup) {
         store.update((store) => {
-            delete store[group][subgroup];
-            store = store;
+            store.find((item) => item.name === group).values.splice(store.find((item) => item.name === group).values.findIndex(item => item.name === subgroup), 1);
             return store;
         });
     }
@@ -130,7 +150,7 @@ function CreateColorStore(initialValue) {
         get(store).forEach(group => {
             group.values.forEach(subGroup => {
                 subGroup.values.forEach(color => {
-                    colorMap[color.name] = color.color;
+                    colorMap[color.name] = color.color.trim();
                 });
             });
         });
@@ -163,6 +183,29 @@ function CreateColorStore(initialValue) {
 function CreateTileStore() {
     const store = writable([]);
 
+    let loadedFromStore = false;
+
+    store.subscribe((store) => {
+        // if the store is empty, try to load from local storage
+        if (store.length === 0 && !loadedFromStore) {
+            const localStore = localStorage.getItem("tileStore");
+            if (localStore) {
+                setTiles(JSON.parse(localStore));
+            }
+
+            loadedFromStore = true;
+        }
+
+        // otherwise, save to local storage
+        else {
+            localStorage.setItem("tileStore", JSON.stringify(store));
+        }
+    })
+
+    function setTiles(tiles) {
+        store.set(tiles);
+    }
+
     /********************************** */
     /*          EDIT FUNCTIONS          */
     /********************************** */
@@ -175,16 +218,12 @@ function CreateTileStore() {
         });
     }
 
-    function removeTile(tile) {
+    function removeTile(tileId) {
+        console.log("trying to remove tile")
         store.update((store) => {
-            store.splice(store.indexOf(tile), 1);
-            return store;
-        });
-    }
-
-    function updateTile(tile, index) {
-        store.update((store) => {
-            store[index] = tile;
+            store.splice(store.findIndex(tile => tile.id === tileId), 1);
+            // update the local storage
+            localStorage.setItem("tileStore", JSON.stringify(store));
             return store;
         });
     }
@@ -221,15 +260,42 @@ function CreateTileStore() {
         return get(store).find(tile => tile.id === id);
     }
 
+    /********************************** */
+    /*       EXPORT FUNCTIONS           */
+    /********************************** */
+
+    function exportTiles() {
+    const data = get(store);
+    let csvContent = "name,glyph,background,foreground,description,type,switchTo\n";
+
+    data.forEach(item => {
+        const name = item.foregroundColor?.name || '';
+        const glyph = item.glyph || '';
+        const background = item.backgroundColor?.name || '';
+        const foreground = item.foregroundColor?.name || '';
+        const description =  '';
+        const type = '';  
+        const switchTo = '';  
+
+        // Construct the CSV row
+        const row = `${name},${glyph},${background},${foreground},${description},${type},${switchTo}`;
+
+        csvContent += row + "\r\n";
+    });
+
+    return csvContent;
+}
+
+
     return {
         set: store.set,
         addTile,
         removeTile,
-        updateTile,
         changeForeground,
         changeBackground,
         getTile,
         getTiles,
+        exportTiles,
         subscribe: store.subscribe,
     }
 }

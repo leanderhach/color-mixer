@@ -19,10 +19,9 @@
 
 <style>
     .swatch {
-        height: 2rem;
-        width: 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        text-align: center;
+        line-height:4rem;
+        width:4rem;
+        height:4rem;
     }
 </style>

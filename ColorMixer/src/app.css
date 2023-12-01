@@ -51,6 +51,14 @@
   --border-focused: var(--border-thickness) solid var(--brand-color);
 }
 
+body, html, #app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 .button {
   background-color: var(--brand-color);
   color: white;
@@ -86,6 +94,10 @@
   background: transparent;
   border: none;
   color: var(--brand-color);
+}
+
+.sidebar {
+  height: 100%;
 }
 
 .popup-menu {

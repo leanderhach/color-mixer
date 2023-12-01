@@ -87,7 +87,7 @@
     .palette-panel {
       padding-right: 0.25rem;
       box-sizing: border-box;
-      padding-left: 0.25rem;
+      height: 100%;
     }
     .colors {
         display: flex;

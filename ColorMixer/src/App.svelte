@@ -47,20 +47,19 @@
   // ]
 
   onMount(() => {
-    _colorStore.addGroup("blue");
-    _colorStore.addGroup("green");
-    _colorStore.addSubGroup("blue", "ocean");
+    // _colorStore.addGroup("blue");
+    // _colorStore.addGroup("green");
+    // _colorStore.addSubGroup("blue", "ocean");
 
     
-    _colorStore.addColor("blue", "ocean",{
-      name: 'deepOcean',
-      color: '#0000FF',
-      tags: ['mare'],
-    })
+    // _colorStore.addColor("blue", "ocean",{
+    //   name: 'deepOcean',
+    //   color: '#0000FF',
+    //   tags: ['mare'],
+    // })
   })
   
 </script>
-
 <main>
   <div class="content">
     <div class="content__tile-panel">
@@ -75,13 +74,6 @@
 </main>
 
 <style>
-  :global(body), :global(html) {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-  }
-
   .content__tile-panel {
     position: relative;
   }
@@ -100,7 +92,7 @@
     display: flex;
     flex-direction: row;
     height: 100%;
-
+    position: relative;
   }
 
   .content {
